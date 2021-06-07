@@ -69,8 +69,9 @@ class VPTreeNode<P, E extends P> {
 
             if (closerSize == 0 || fartherSize == 0) {
                 // One of the child nodes has become empty, and needs to be pruned.
-                this.points = new ArrayList<>(closerSize + fartherSize);
-                this.addAllPointsToCollection(this.points);
+                ArrayList<E> children = new ArrayList<>(closerSize + fartherSize);
+                this.addAllPointsToCollection(children);
+                this.points = children;
 
                 this.closer = null;
                 this.farther = null;

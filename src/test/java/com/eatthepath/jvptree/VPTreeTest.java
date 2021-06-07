@@ -162,7 +162,7 @@ public class VPTreeTest {
     public void testRemoveAll() {
         final ArrayList<Integer> pointsToRemove = new ArrayList<>();
 
-        for (int i = 0; i < TEST_TREE_SIZE; i += 2) {
+        for (int i = 0; i < TEST_TREE_SIZE / 2; ++i) {
             pointsToRemove.add(i);
         }
 
