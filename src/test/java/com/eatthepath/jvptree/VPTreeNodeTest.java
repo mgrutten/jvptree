@@ -168,6 +168,24 @@ public class VPTreeNodeTest {
         }
     }
 
+    @Test
+    void testAnneal() {
+        int nodeSize = 8;
+        int pointCount = 2 * nodeSize;
+        final ArrayList<Integer> points = new ArrayList<>(pointCount);
+
+        // All the same value
+        for (int i = 0; i < pointCount; i++) {
+            points.add(123);
+        }
+
+        final VPTreeNode<Number, Integer> testNode = new VPTreeNode<>(points, new IntegerDistanceFunction(),
+                new MedianDistanceThresholdSelectionStrategy<>(), nodeSize);
+
+        // Test that all points are inserted into the node
+        assertEquals(pointCount, testNode.size());
+    }
+
     private Collection<VPTreeNode<Number, Integer>> createTestNodes(@SuppressWarnings("SameParameterValue") final int nodeSize) {
         final ArrayList<Integer> points = new ArrayList<>(nodeSize);
 

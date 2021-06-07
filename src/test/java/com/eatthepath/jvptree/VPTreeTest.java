@@ -2,10 +2,7 @@ package com.eatthepath.jvptree;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -79,6 +76,14 @@ public class VPTreeTest {
     }
 
     @Test
+    void testEmptyTree() {
+        final VPTree<Number, Integer> vpTree = new VPTree<>(new IntegerDistanceFunction());
+
+        assertNull(vpTree.getNearestNeighbors(0, 0));
+        assertNull(vpTree.getAllWithinDistance(0, 0));
+    }
+
+    @Test
     public void testSize() {
         final ArrayList<Integer> points = new ArrayList<>();
 
@@ -144,6 +149,12 @@ public class VPTreeTest {
         assertTrue(vpTree.addAll(points));
         assertEquals(points.size(), vpTree.size());
         assertTrue(vpTree.containsAll(points));
+
+        // Add no extra points
+        assertFalse(vpTree.addAll(Collections.emptyList()));
+
+        // Add points again
+        assertTrue(vpTree.addAll(points));
     }
 
     @Test
@@ -176,13 +187,18 @@ public class VPTreeTest {
         }
 
         assertFalse(vpTree.removeAll(pointsToRemove));
+
+        // Check with wrong objects
+        List<Object> wrongClass = Collections.singletonList(new ArrayList<Double>());
+        vpTree.removeAll(wrongClass);
+
     }
 
     @Test
     public void testRetainAll() {
         final ArrayList<Integer> pointsToRetain = new ArrayList<>();
 
-        for (int i = 0; i < TEST_TREE_SIZE; i += 2) {
+        for (int i = 0; i < TEST_TREE_SIZE; i += 4) {
             pointsToRetain.add(i);
         }
 
@@ -195,6 +211,10 @@ public class VPTreeTest {
             assertTrue(vpTree.contains(point));
         }
 
+        assertFalse(vpTree.retainAll(pointsToRetain));
+
+        // Check with empty tree
+        vpTree.clear();
         assertFalse(vpTree.retainAll(pointsToRetain));
     }
 
@@ -221,6 +241,9 @@ public class VPTreeTest {
         vpTree.add(pointAdded);
         assertTrue(vpTree.contains(pointAdded));
         assertFalse(vpTree.contains(pointNotAdded));
+
+        // False if can't cast to Integer
+        assertFalse(vpTree.contains("hello"));
 
         vpTree.remove(pointAdded);
         assertFalse(vpTree.contains(pointAdded));

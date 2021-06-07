@@ -209,11 +209,7 @@ public class VPTree<P, E extends P> implements SpatialIndex<P, E> {
     @Override
     @SuppressWarnings("unchecked")
     public boolean contains(final Object o) {
-        try {
-            return this.rootNode == null ? false : this.rootNode.contains((E) o);
-        } catch (final ClassCastException e) {
-            return false;
-        }
+        return this.rootNode == null ? false : this.rootNode.contains((E) o);
     }
 
     /*
